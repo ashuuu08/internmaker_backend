@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: internmaker-backend
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/internmaker?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: Ram@ram@9691
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # use 'validate' in production
+    show-sql: true
+
+# Razorpay keys
+razorpay:
+  key: rzp_test_1234567890abcdef
+  secret: rzp_test_abcdef1234567890
+
+# Optional: server port
+server:
+  port: 8080
+
+# Optional: logging
+logging:
+  level:
+    org.springframework: INFO
