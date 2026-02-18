@@ -1,26 +1,22 @@
 package com.internmaker.internmaker_backend.controller;
 
-import com.internmaker.internmaker_backend.dto.AuthResponse;
-import com.internmaker.internmaker_backend.dto.LoginRequest;
-import com.internmaker.internmaker_backend.dto.RegisterRequest;
+import com.internmaker.internmaker_backend.dto.*;
 import com.internmaker.internmaker_backend.service.AuthService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     private final AuthService authService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
-
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
-        authService.register(request);
-        return ResponseEntity.ok("User registered successfully");
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")

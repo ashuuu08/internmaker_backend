@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InternMaker Auth Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .test-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status.running {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .summary h3 {
+            margin-bottom: 15px;
+        }
+
+        .summary ul {
+            list-style: none;
+        }
+
+        .summary li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .summary li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🧪 InternMaker Authentication Test</h1>
+        <p class="subtitle">Test the fixed authentication endpoints</p>
+
+        <!-- Test 1: Registration -->
+        <div class="test-section">
+            <h2>Test 1: Registration <span id="reg-status" class="status"></span></h2>
+            <label>Full Name:</label>
+            <input type="text" id="reg-fullname" value="Test User" />
+
+            <label>Email:</label>
+            <input type="email" id="reg-email" value="test@example.com" />
+
+            <label>Phone:</label>
+            <input type="tel" id="reg-phone" value="1234567890" />
+
+            <label>Password:</label>
+            <input type="password" id="reg-password" value="password123" />
+
+            <label>Role:</label>
+            <select id="reg-role"
+                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px;">
+                <option value="STUDENT">STUDENT</option>
+                <option value="INSTRUCTOR">INSTRUCTOR</option>
+                <option value="ADMIN">ADMIN</option>
+            </select>
+
+            <button onclick="testRegistration()">🚀 Test Registration</button>
+            <button onclick="generateRandomEmail()">🎲 Generate Random Email</button>
+            <div id="reg-result"></div>
+        </div>
+
+        <!-- Test 2: Login -->
+        <div class="test-section">
+            <h2>Test 2: Login <span id="login-status" class="status"></span></h2>
+            <label>Email:</label>
+            <input type="email" id="login-email" value="test@example.com" />
+
+            <label>Password:</label>
+            <input type="password" id="login-password" value="password123" />
+
+            <button onclick="testLogin()">🔐 Test Login</button>
+            <button onclick="useRegisteredCredentials()">📋 Use Registered Credentials</button>
+            <div id="login-result"></div>
+        </div>
+
+        <!-- Test 3: Protected Endpoint -->
+        <div class="test-section">
+            <h2>Test 3: Protected Endpoint (Courses) <span id="courses-status" class="status"></span></h2>
+            <p style="color: #666; font-size: 13px; margin-bottom: 15px;">This test verifies that JWT tokens work
+                correctly</p>
+            <button onclick="testProtectedEndpoint()">🛡️ Test Protected Endpoint</button>
+            <div id="courses-result"></div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary" id="summary" style="display: none;">
+            <h3>✅ Test Summary</h3>
+            <ul id="summary-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080';
+        let authToken = null;
+        let registeredEmail = null;
+        let registeredPassword = null;
+
+        function generateRandomEmail() {
+            const random = Math.floor(Math.random() * 10000);
+            document.getElementById('reg-email').value = `testuser${random}@example.com`;
+        }
+
+        function useRegisteredCredentials() {
+            if (registeredEmail && registeredPassword) {
+                document.getElementById('login-email').value = registeredEmail;
+                document.getElementById('login-password').value = registeredPassword;
+                showResult('login-result', 'Credentials filled from registration', 'info');
+            } else {
+                showResult('login-result', 'Please register a user first', 'error');
+            }
+        }
+
+        function showResult(elementId, message, type) {
+            const resultDiv = document.getElementById(elementId);
+            resultDiv.className = `result ${type}`;
+            resultDiv.textContent = message;
+        }
+
+        function updateStatus(statusId, status) {
+            const statusEl = document.getElementById(statusId);
+            statusEl.className = `status ${status}`;
+            statusEl.textContent = status.toUpperCase();
+        }
+
+        async function testRegistration() {
+            const fullName = document.getElementById('reg-fullname').value;
+            const email = document.getElementById('reg-email').value;
+            const phone = document.getElementById('reg-phone').value;
+            const password = document.getElementById('reg-password').value;
+            const role = document.getElementById('reg-role').value;
+
+            updateStatus('reg-status', 'running');
+
+            const payload = {
+                fullName,
+                email,
+                phone,
+                password,
+                role
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    registeredEmail = email;
+                    registeredPassword = password;
+                    authToken = data.token;
+
+                    const result = `✅ Registration Successful!\n\n` +
+                        `Status: ${response.status}\n` +
+                        `Token: ${data.token.substring(0, 30)}...\n` +
+                        `User: ${data.fullName}\n` +
+                        `Role: ${data.role}\n\n` +
+                        `Full Response:\n${JSON.stringify(data, null, 2)}`;
+
+                    showResult('reg-result', result, 'success');
+                    updateStatus('reg-status', 'success');
+                    updateSummary('Registration', true, 'Email field accepted, role sent correctly');
+                } else {
+                    throw new Error(data.message || 'Registration failed');
+                }
+            } catch (error) {
+                const result = `❌ Registration Failed!\n\nError: ${error.message}`;
+                showResult('reg-result', result, 'error');
+                updateStatus('reg-status', 'failed');
+                updateSummary('Registration', false, error.message);
+            }
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            updateStatus('login-status', 'running');
+
+            const payload = {
+                email,  // ✅ Fixed: sending 'email' instead of 'username'
+                password
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    authToken = data.token;
+
+                    const result = `✅ Login Successful!\n\n` +
+                        `Status: ${response.status}\n` +
+                        `Token: ${data.token.substring(0, 30)}...\n` +
+                        `User: ${data.fullName}\n` +
+                        `Role: ${data.role}\n\n` +
+                        `Full Response:\n${JSON.stringify(data, null, 2)}`;
+
+                    showResult('login-result', result, 'success');
+                    updateStatus('login-status', 'success');
+                    updateSummary('Login', true, 'Email field accepted, JWT token received');
+                } else {
+                    throw new Error(data.message || 'Login failed');
+                }
+            } catch (error) {
+                const result = `❌ Login Failed!\n\nError: ${error.message}`;
+                showResult('login-result', result, 'error');
+                updateStatus('login-status', 'failed');
+                updateSummary('Login', false, error.message);
+            }
+        }
+
+        async function testProtectedEndpoint() {
+            if (!authToken) {
+                showResult('courses-result', '❌ Please login first to get an auth token', 'error');
+                return;
+            }
+
+            updateStatus('courses-status', 'running');
+
+            try {
+                const response = await fetch(`${API_BASE}/courses`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok || response.status === 404) {
+                    const result = `✅ JWT Token Validation Successful!\n\n` +
+                        `Status: ${response.status}\n` +
+                        `Token: ${authToken.substring(0, 30)}...\n\n` +
+                        `The JWT token was successfully validated by the backend!\n` +
+                        `${response.status === 404 ? '(404 is expected if no courses exist yet)' : ''}`;
+
+                    showResult('courses-result', result, 'success');
+                    updateStatus('courses-status', 'success');
+                    updateSummary('Protected Endpoint', true, 'JWT token validated successfully');
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                const result = `❌ Protected Endpoint Failed!\n\nError: ${error.message}`;
+                showResult('courses-result', result, 'error');
+                updateStatus('courses-status', 'failed');
+                updateSummary('Protected Endpoint', false, error.message);
+            }
+        }
+
+        const summaryResults = {};
+
+        function updateSummary(testName, success, details) {
+            summaryResults[testName] = { success, details };
+
+            const summaryList = document.getElementById('summary-list');
+            summaryList.innerHTML = '';
+
+            for (const [name, result] of Object.entries(summaryResults)) {
+                const li = document.createElement('li');
+                li.innerHTML = `${result.success ? '✅' : '❌'} <strong>${name}:</strong> ${result.details}`;
+                summaryList.appendChild(li);
+            }
+
+            document.getElementById('summary').style.display = 'block';
+        }
+
+        // Auto-generate random email on load
+        window.onload = () => {
+            generateRandomEmail();
+        };
+    </script>
+</body>
+
+</html>

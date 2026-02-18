@@ -1,15 +1,12 @@
 package com.internmaker.internmaker_backend.dto;
 
-public class LoginRequest {
+import lombok.*;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class LoginRequest {
     private String email;
     private String password;
-
-    public LoginRequest() {}
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
 }

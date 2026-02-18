@@ -2,27 +2,27 @@ package com.internmaker.internmaker_backend.controller;
 
 import com.internmaker.internmaker_backend.entity.Course;
 import com.internmaker.internmaker_backend.service.CourseService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/courses")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class CourseController {
 
-    private final CourseService courseService;
+    private final CourseService service;
 
-    public CourseController(CourseService courseService) {
-        this.courseService = courseService;
+    @PostMapping
+    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
+        return ResponseEntity.ok(service.createCourse(course));
     }
 
     @GetMapping
-    public List<Course> getCourses() {
-        return courseService.getAllCourses();
-    }
-
-    @GetMapping("/active")
-    public List<Course> getActiveCourses() {
-        return courseService.getActiveCourses();
+    public ResponseEntity<List<Course>> getAllCourses() {
+        return ResponseEntity.ok(service.getAllActiveCourses());
     }
 }
